@@ -102,7 +102,7 @@ class LoginRequestsSender():
         return "Bearer " + self.extract_auth_token(url)
 
         
-    def get_api_url(self,request_session:requests.Session,profile_auth_token) -> str|None:
+    def get_api_url(self,request_session:requests.Session,profile_auth_token):
         headers = {"authorization": profile_auth_token}
 
         response =  request_session.get("https://magister.net/.well-known/host-meta.json",headers=headers)
@@ -113,7 +113,7 @@ class LoginRequestsSender():
         return main_page
 
 
-    def search_for_tenant_id(self,request_session:requests.Session,school_name,session_id) ->str :
+    def search_for_tenant_id(self,request_session:requests.Session,school_name,session_id):
         response = request_session.get(f"https://accounts.magister.net/challenges/tenant/search?sessionId={session_id}&key={school_name}")
         return response.json()[0]["id"]
     def set_school(self,request_session:requests.Session,school_name,main_payload) ->requests.Response:

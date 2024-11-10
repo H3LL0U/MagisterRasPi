@@ -27,7 +27,7 @@ class MagisterSession():
     
 
 
-    def input_school(self, school_name:str) ->None|requests.Response:
+    def input_school(self, school_name:str) :
         '''
         Sets up a session by inputting the school name. This is the **first step** in the login sequence 
         and must be called before `input_username()` and `input_password()`.
@@ -87,7 +87,7 @@ class MagisterSession():
             self._logMessage("Could not find the school")
             return 
         return response
-    def input_username(self,username:str) -> None|requests.Response:
+    def input_username(self,username:str):
         '''
     Sets the username for the current session. This is the **second step** in the login sequence 
     and must be called after `input_school()` but before `input_password()`.
@@ -113,7 +113,7 @@ class MagisterSession():
             self._logMessage("Could not find the username")
             return None
         return response
-    def input_password(self,password:str) -> None|requests.Response:
+    def input_password(self,password:str) :
         '''
         Sets the password for the session and finalizes the login process. This is the **third and final step** 
         in the login sequence and must be called after `input_school()` and `input_username()`.
@@ -148,7 +148,7 @@ class MagisterSession():
 
         self._logMessage("you have successfully logged in!")
         return response
-    def login(self,school_name:str,username:str,password:str) -> bool:
+    def login(self,school_name:str,username:str,password:str):
         '''
         logs the user into their account
 
@@ -180,7 +180,7 @@ class MagisterSession():
 
 
 
-    def get_schedule(self, _from:str, to:str,with_changes = True) -> list[dict]|None:
+    def get_schedule(self, _from:str, to:str,with_changes = True):
         '''
     Retrieves the user’s schedule within a specified date range.
     
@@ -260,7 +260,7 @@ class MagisterSession():
 
             response_json = respone.json()["Items"]
             return list(map(remove_links_and_id,response_json))
-    def get_grades(self, top:int = 25,skip:int = 0) -> list[dict]:
+    def get_grades(self, top:int = 25,skip:int = 0) :
         '''
     Retrieves the most recent grades for the user.
     

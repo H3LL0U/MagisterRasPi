@@ -11,7 +11,7 @@ class MagisterSession():
         self.session = requests.Session()
         self.profile_auth_token = None #auth token for the redirect page
         self.app_auth_token = None #auth token for the main app
-        self.authcode = "1ca5d248"
+        self.authcode = "b7cf076f"
         self.sessionid = None
         self.returnurl = None
         self.main_payload = None
@@ -69,7 +69,7 @@ class MagisterSession():
         response = self.session.get(f"https://accounts.magister.net/{javascript_redirect_url}")
         self.authcode = self.request_sender.extract_authcode_from_javascript(response.text)
         '''
-        self.authcode = "1ca5d248" #gets rotated TODO: figure out a way to extract it from the javascript
+         #gets rotated TODO: figure out a way to extract it from the javascript
 
         self.main_payload = {
         'authCode': self.authcode,

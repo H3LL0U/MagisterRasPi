@@ -4,6 +4,7 @@ charset-normalizer==3.4.0
 customtkinter==5.2.2
 darkdetect==0.8.0
 idna==3.10
+MagisterPy @ git+https://github.com/H3LL0U/MagisterPy.git@e4f9a82d5c7856c60ca69c2edc3005027959ad07
 ntplib==0.4.0
 packaging==24.2
 requests==2.32.3

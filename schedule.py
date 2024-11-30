@@ -85,22 +85,24 @@ class TimetableApp(ctk.CTk):
 
     def clear_timetable(self):
         for frame in self.lesson_frames:
-            frame.pack_forget()
+            frame.grid_forget()
     def create_timetable(self, lessons, frame_height=80, padding=15):
         
         """Create and display the timetable based on lesson data."""
         self.clear_timetable()
         if not self.scroll_frame:
-            self.scroll_frame = ctk.CTkScrollableFrame(self, height=self.screen_height*0.65)
+            self.scroll_frame_main = ctk.CTkScrollableFrame(self, height=self.screen_height*0.65)
             
             
-            self.scroll_frame.pack(pady=10, fill="both")
-
+            self.scroll_frame_main.pack(pady=10, fill="both")
+            self.scroll_frame = ctk.CTkFrame(self.scroll_frame_main,)
+            self.scroll_frame.pack()
         for i, lesson in enumerate(lessons):
+            col = i%2
             # Create and configure a frame for each lesson
             lesson_frame = self.create_lesson_frame(lesson, frame_height, padding)
             self.lesson_frames.append(lesson_frame)
-            lesson_frame.pack(pady=10,fill = "both",padx=30)  # Add margin between frames
+            lesson_frame.grid(pady=10,padx= 10, column = col, row = i//2,sticky = "nesw")  # Add margin between frames
 
     def create_lesson_frame(self, lesson, frame_height, padding):
         """Create a frame for a single lesson."""

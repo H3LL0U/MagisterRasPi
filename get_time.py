@@ -1,5 +1,5 @@
 import ntplib
-
+from datetime import datetime
 from time import ctime
 
 
@@ -17,7 +17,7 @@ def get_ntp_time():
     
     except Exception as e:
         print(f"Error while fetching NTP time: {e}")
-        return None
+        return datetime.now().ctime()
 
 from datetime import datetime, timedelta
 

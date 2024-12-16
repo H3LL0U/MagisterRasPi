@@ -69,4 +69,3 @@ class LessonGetter():
         return formatted_schedule
 
 
-

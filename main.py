@@ -36,7 +36,8 @@ def main():
         except KeyboardInterrupt:
             return
         except Exception as e :
-            raise e
+            if messagebox.askyesno(f"EXIT?",str(e)):
+                return
 
 if __name__ == "__main__":
     main()

@@ -3,6 +3,8 @@ import datetime
 import get_time
 import lessongetter
 import credentials
+from tkinter import messagebox
+from gradeswindow import GradesWindow
 # Initialize CustomTkinter
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
@@ -13,7 +15,7 @@ class TimetableApp(ctk.CTk):
         self.lesson_getter = lessongetter.LessonGetter()
         
         self.session = magister_session
-        self.title("Timetable")
+        self.title("Magister")
         self.screen_width = self.winfo_screenwidth()
         self.screen_height = self.winfo_screenheight()
         self._geometry = f"{self.screen_width}x{self.screen_height}"
@@ -23,29 +25,63 @@ class TimetableApp(ctk.CTk):
         self.fullscreen = False
         self.current_time = get_time.get_ntp_time()
         self.selected_time = self.current_time
+        self.grades_window = None
         self.lessons = self.lesson_getter.extract_lessons_from_date(self.session,self.current_time)
         self.bind("<Escape>", self.toggle_fullscreen)
-
         self._logged_out = False
-        
-        # Fullscreen toggle button in the top right corner
+    
         full_screen_button_frame = ctk.CTkFrame(self)
-        full_screen_button_frame.pack(fill="x")
-        fullscreen_button = ctk.CTkButton(full_screen_button_frame, text="full", command=self.toggle_fullscreen)
-        fullscreen_button.pack(side="left")
-        
+        full_screen_button_frame.pack(fill="x", pady=10)
+
+        #clock
+
         self.clock = ctk.CTkLabel(full_screen_button_frame,text = self.current_time[:-8],font=("Arial", 14))
         self.clock.pack(side = "right",padx = 30)
-        logout_button = ctk.CTkButton(full_screen_button_frame,text="logout",command=self.logout)
-        logout_button.pack(side="left",padx=30)
+
+        # Dropdown Menu
+        self.options = ["Fullscreen", "Logout", "Grades"]  # Dropdown options
+        self.dropdown = ctk.CTkOptionMenu(
+            full_screen_button_frame, 
+            values=self.options,
+            command=self.handle_dropdown_selection,
+            
+        )
+        self.dropdown.pack(side="left", padx=20)
+        self.dropdown.set("Options")
         self.create_top_bar()
         self.create_timetable(lessons=self.lessons)
 
+
+
         self.set_current_date()
+    def handle_dropdown_selection(self, selected_option):
+        """Handle the dropdown menu selection."""
+        self.dropdown.set("Options")
+        if selected_option == "Fullscreen":
+            self.toggle_fullscreen()
+        elif selected_option == "Logout":
+            self.logout()
+        elif selected_option == "Grades":
+            self.get_grades()
     def logout(self):
-        credentials.clear_saved_credentials()
-        self._logged_out = True
-        self.destroy()
+        if messagebox.askyesno("Logout?","Are you sure you want to logout?"):
+
+            credentials.clear_saved_credentials()
+            self._logged_out = True
+            self.destroy()
+    def get_grades(self):
+        """Open the Grades window if not already open."""
+        if not hasattr(self, 'grades_window') or self.grades_window is None or not self.grades_window.winfo_exists():
+            
+            
+            self.grades_window = GradesWindow(self.session)  
+        else:
+            
+            
+            self.grades_window.lift()
+            self.grades_window.focus_force()
+        
+
     def toggle_fullscreen(self,event=None):
             
         self.fullscreen = not self.fullscreen

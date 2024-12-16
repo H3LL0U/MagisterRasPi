@@ -1,23 +1,11 @@
-import ntplib
+
 from datetime import datetime
 from time import ctime
 
 
 def get_ntp_time():
-    # Create an NTP client instance
-    client = ntplib.NTPClient()
-    
-    try:
-        # Send a request to an NTP server (e.g., pool.ntp.org)
-        response = client.request('pool.ntp.org', version=3)
-        
-        # Convert the response time to a human-readable format
-        ntp_time = ctime(response.tx_time)
-        return ntp_time  # Return as timestamp to set system time
-    
-    except Exception as e:
-        print(f"Error while fetching NTP time: {e}")
-        return datetime.now().ctime()
+
+    return datetime.now().ctime()
 
 from datetime import datetime, timedelta
 
